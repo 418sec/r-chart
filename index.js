@@ -53,6 +53,11 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var RChartContext = /*#__PURE__*/(0, _react.createContext)();
 
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+
 var RChart = /*#__PURE__*/function (_Component) {
   _inherits(RChart, _Component);
 
@@ -1649,7 +1654,7 @@ var RChartEdit = /*#__PURE__*/function (_Component2) {
           dataIndexes = _this$props10$dataInd === void 0 ? [] : _this$props10$dataInd,
           disabled = _this$props10.disabled;
       var _this$context = this.context,
-          key_title = _this$context.key_title,
+          key_title = DOMPurify.sanitize(_this$context.key_title),
           value_title = _this$context.value_title,
           keys = _this$context.keys,
           data = _this$context.data,
@@ -1705,8 +1710,8 @@ var RChartEdit = /*#__PURE__*/function (_Component2) {
         className: "r-chart-edit-item"
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: "r-chart-edit-label",
-        title: key_title || 'untitle'
-      }, (key_title || 'untitle') + ' : '), /*#__PURE__*/_react.default.createElement("div", {
+        title: DOMPurify.sanitize(key_title) || 'untitle'
+      }, (DOMPurify.sanitize(key_title) || 'untitle') + ' : '), /*#__PURE__*/_react.default.createElement("div", {
         className: "r-chart-detail-value"
       }, staticValue)), dynamicValue !== undefined && /*#__PURE__*/_react.default.createElement("div", {
         className: "r-chart-edit-item"
